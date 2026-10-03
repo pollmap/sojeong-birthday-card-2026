@@ -21,14 +21,14 @@
     later(()=>{pika.classList.add('bow');card.classList.add('bowing')},3900);
     later(()=>{pichu.classList.add('oops','speaking')},4250);
     later(()=>{pichu.classList.remove('oops');pichu.classList.add('bow')},4750);
-    later(()=>{pika.classList.remove('bow','speaking');pichu.classList.remove('bow','speaking');card.classList.remove('bowing');card.classList.add('celebrating');caption.textContent='박자는 달라도 축하는 진심입니다 ㅋㅋ';burst();tune()},6400);
+    later(()=>{pika.classList.remove('bow','speaking');pichu.classList.remove('bow','speaking');card.classList.remove('bowing');card.classList.add('celebrating');caption.textContent='';burst();tune()},6400);
     later(()=>burst(55),7450);later(ready,9000);
   }
   function start(first=false){stop();running=true;card.dataset.state='playing';card.classList.remove('arriving','served','bowing','celebrating');party.classList.remove('party-enter');pika.classList.remove('bow','speaking');pichu.classList.remove('bow','speaking','oops');cake.classList.remove('lit');caption.textContent='축하단 입장합니다.';$('share-status').textContent='';void card.offsetWidth;if(first&&!reduced.matches){card.classList.add('closed-out');later(reveal,480)}else reveal();}
   $('enter').addEventListener('click',()=>{if(!running)start(true)});
   $('replay').addEventListener('click',()=>start());
   $('sound').addEventListener('click',async()=>{try{if(!audio){const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio)throw Error('unsupported');audio=new Audio()}await audio.resume();soundOn=!soundOn;$('sound').setAttribute('aria-pressed',String(soundOn));$('sound').textContent=soundOn?'♪ 소리 끄기':'♪ 소리 켜기';if(soundOn)tune();else{notes.forEach(n=>{try{n.stop()}catch{}});notes=[]}}catch{$('share-status').textContent='소리 없이도 파티는 계속됩니다.'}});
-  $('share').addEventListener('click',async()=>{const url='https://pollmap.github.io/sojeong-birthday-card-2026/?v=2';try{await navigator.clipboard.writeText(url);$('share-status').textContent='링크를 복사했습니다.'}catch{$('share-status').textContent='주소창의 링크를 복사해 주세요.'}});
+  $('share').addEventListener('click',async()=>{const url='https://pollmap.github.io/sojeong-birthday-card-2026/?v=4';try{await navigator.clipboard.writeText(url);$('share-status').textContent='링크를 복사했습니다.'}catch{$('share-status').textContent='주소창의 링크를 복사해 주세요.'}});
   document.addEventListener('visibilitychange',()=>{if(document.hidden){if(audio)audio.suspend().catch(()=>{});if(running){stop();pika.classList.remove('bow','speaking');pichu.classList.remove('bow','speaking','oops');invitation.hidden=true;party.hidden=false;card.classList.add('arriving','served');cake.classList.add('lit');ready();}cancelAnimationFrame(frame);frame=0;particles=[];if(ctx)ctx.clearRect(0,0,w,h)}else if(audio&&soundOn)audio.resume().catch(()=>{});});
   const motionChange=()=>{if(reduced.matches&&running){stop();invitation.hidden=true;party.hidden=false;card.classList.add('arriving','served');cake.classList.add('lit');ready();}};
   if(reduced.addEventListener)reduced.addEventListener('change',motionChange);else reduced.addListener(motionChange);
